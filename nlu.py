@@ -79,8 +79,9 @@ class NLU:
         print(f"{harm_issues=}")
         return False
 
-    def parse(self, user_input):
+    def parse(self, user_input) -> dict:
         if not self._sensorship(user_input):
-            return "检测到恶意信息，我无法回答"
+            print("检测到恶意信息，我无法回答")
+            return None
         prompt = self.prompt_template.replace("__INPUT__", user_input)
         return self._get_completion(prompt)

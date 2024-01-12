@@ -58,6 +58,9 @@ class DialogManager:
     def run(self, user_input):
         # 调用NLU获得语义解析
         semantics = self.nlu.parse(user_input)
+        if semantics is None:
+            print("Invalid semantic, conversation is over")
+            return
         print("===semantics===")
         print(semantics)
 
