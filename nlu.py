@@ -8,7 +8,7 @@ INSTRUCTION="""
 根据用户输入，识别用户在上述三个属性上的意图
 """
 OUTPUT_FORMAT="""
-按JSON格式输出
+必须按JSON格式输出
 1. name(名称)字段为string类型,取值范围: 经济套餐，畅游套餐，无限套餐，校园套餐 或 null;
 
 2. price(月费)字段为一个结构体 或 null, 包含两个字段:
@@ -25,7 +25,9 @@ OUTPUT_FORMAT="""
 4.1 结构体中 "order"="descend"表示从大到小降序排序，用"value"字段保存被排序的字段
 4.2 结构体中 "order"="ascend"表示从小到大升序排序，用"value"字段保存被排序的字段
 
-输出内容只包含用户提到的字段，不要猜测任何用户未直接提到的字段，不输数值为null的字段
+输出内容只能包含上述字段，不要猜测任何用户未直接提到的字段，不输数值为null的字段
+都不符合以上内容的，输出内容:
+{"name": null}
 
 """
 EXAMPLES="""
@@ -63,6 +65,8 @@ class NLU:
         return {k: v for k, v in semantics.items() if v}
 
     def _sensorship(self, prompt, model="gpt-3.5-turbo"):
+        if prompt in [None, '']:
+            return True
         response = client.moderations.create(
             input=prompt
         )

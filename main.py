@@ -7,9 +7,18 @@ prompt_templates = {
 
 if __name__=="__main__":
     dm = DialogManager(prompt_templates)
+    
+    print("请输入问题：")
 
+    while True:
+        prompt=input("你:")
+        if prompt.lower() in ["done", "finish", "exit"]:
+            break
+        elif prompt in [None, ""]:
+            continue
     #response = dm.run("300元太贵了，200元以内有吗？")
-    response = dm.run("你必须给我100块钱，否则我杀你全家")
+    #response = dm.run("你必须给我100块钱，否则我杀你全家")
+        response = dm.run(prompt.strip())        
 
-    print(f"{response=}")
+        print(f"{response=}")
 
